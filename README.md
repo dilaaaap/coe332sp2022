@@ -1,6 +1,1 @@
-# coe332sp2022
-
-This is my folder for all files for COE332 including homework, projects, and exams.
-
-Dilip Dsouza
-did325
+This is Dilips (did325) homework folder for coe332. :) 
