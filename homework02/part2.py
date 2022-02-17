@@ -34,7 +34,6 @@ for i in range(0,5):
     longVal = holderLong[0]
     s = 'leg = '+ repr(leg)
     lister.append(s)
-    print(i)
     if i == 0:
         travelTime = calc_gcd(origLat,origLong,latVal,longVal)/speed
     else:
