@@ -1,6 +1,13 @@
 #!/usr/bin/env python3
+import sys
 import json
 from typing import List
+import logging
+import socket
+
+format_str=f'[%(asctime)s {socket.gethostname()}] %(filename)s:%(funcName)s:%(lineno)s - %(levelname)s: %(message)s'
+logging.basicConfig(level=logging.WARNING, format=format_str)
+
 
 def compute_average_mass(a_list_of_dicts: List[dict], a_key_string: str) -> float:
     """
@@ -16,12 +23,15 @@ def compute_average_mass(a_list_of_dicts: List[dict], a_key_string: str) -> floa
     Returns:
         result (float): Average value.
     """
+    if (len(a_list_of_dicts) == 0):
+        logging.error('a list of dicts is empty')
     total_mass = 0.
     for item in a_list_of_dicts:
         total_mass += float(item[a_key_string])
     return(total_mass / len(a_list_of_dicts) )
 
-def check_hemisphere(latitude: float, longitude: float) -> float:
+
+def check_hemisphere(latitude: float, longitude: float) -> str:
     """
     Given latitude and longitude in decimal notation, returns which hemispheres
     those coordinates land in.
@@ -33,9 +43,13 @@ def check_hemisphere(latitude: float, longitude: float) -> float:
     Returns:
         location (string): Short string listing two hemispheres.
     """
+    if latitude == 0 or longitude == 0:
+        #logging.error('youre not really in a hemisphere')
+        raise(ValueError)
     location = 'Northern' if (latitude > 0) else 'Southern'
     location = f'{location} & Eastern' if (longitude > 0) else f'{location} & Western'
     return(location)
+
 
 def count_classes(a_list_of_dicts: List[dict], a_key_string: str) -> dict:
     """
@@ -61,16 +75,49 @@ def count_classes(a_list_of_dicts: List[dict], a_key_string: str) -> dict:
             classes_observed[item[a_key_string]] = 1
     return(classes_observed)
 
+
 def main():
-    with open('Meteorite_Landings.json', 'r') as f:
+    logging.debug('entering main loop')
+    NE = 0
+    NW = 0
+    SE = 0
+    SW = 0
+    L5 = 0
+
+
+    with open(sys.argv[1], 'r') as f:
         ml_data = json.load(f)
 
+    logging.debug(f'the type of ml_data is {type(ml_data)}')
+
+    print("\nSummary data following meteorite analysis:")
+    
+    print("\nAverage mass of 30 meteors:")
     print(compute_average_mass(ml_data['meteorite_landings'], 'mass (g)'))
 
     for row in ml_data['meteorite_landings']:
-        print(check_hemisphere(float(row['reclat']), float(row['reclong'])))
+        if check_hemisphere(float(row['reclat']), float(row['reclong'])) == 'Northern & Eastern':
+            NE = NE +1 
+        elif check_hemisphere(float(row['reclat']), float(row['reclong'])) == 'Southern & Eastern':
+            SE = SE +1 
+        elif check_hemisphere(float(row['reclat']), float(row['reclong'])) == 'Northern & Western':
+            NW = NW +1 
+        elif check_hemisphere(float(row['reclat']), float(row['reclong'])) == 'Southern & Western':
+            SW = SW +1  
+        else:
+            print("ERROR")
+    print("\nHemisphere Summary data:")
+    print("There were ", NE, " meteors found in the Northern and Eastern quadrant")
+    print("There were ", NW, " meteors found in the Northern and Western quadrant")
+    print("There were ", SE, " meteors found in the Southern and Eastern quadrant")
+    print("There were ", SW, " meteors found in the Southern and Western quadrant\n")
 
-    print(count_classes(ml_data['meteorite_landings'], 'recclass'))
+    print("Class Summary Data:")
+    holder = count_classes(ml_data['meteorite_landings'], 'recclass')
+    for key, value in holder.items():
+        print("The ", key ,  " class was found ", value, " times.")
 
 if __name__ == '__main__':
     main()
+
+
