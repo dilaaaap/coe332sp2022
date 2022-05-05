@@ -12,6 +12,7 @@ def tuple2dict(tup,di):
         di.setdefault(a, []).append(b)
     return di
 siteHolder = 0
+
 for i in range(0,5):
     sites = {}
     lister = []
@@ -39,11 +40,6 @@ for i in range(0,5):
 
 dicts['sites']= dictList
 
-print(dicts)
-
 jsoner = json.dumps(dicts)
 with open ('jsonData.json','w') as outfile:
     json.dump(dicts, outfile)
-
-
-
