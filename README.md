@@ -1,1 +1,2 @@
-This is Dilips (did325) homework folder for coe332. :) 
+This is Dilips (did325) homework folder for the coe332 spring 2022 class.
+
