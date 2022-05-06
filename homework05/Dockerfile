@@ -6,9 +6,7 @@ RUN yum install -y python3
 
 RUN pip3 install pytest==7.0.0
 
-RUN wget https://nasa-public-data.s3.amazonaws.com/iss-coords/2022-02-13/ISS_OEM/ISS.OEM_J2K_EPH.xml /code/ISS.OEM_J2K_EPH.xml
-
-RUN wget https://nasa-public-data.s3.amazonaws.com/iss-coords/2022-02-13/ISS_sightings/XMLsightingData_citiesUSA05.xml /code/XMLsightingData_citiesUSA05.xml
+RUN wget https://raw.githubusercontent.com/wjallen/coe332-sample-data/main/ML_Data_Sample.json /data/ML_Data_Sample.json
 
 COPY app.py /code/app.py
 
