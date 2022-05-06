@@ -1,0 +1,30 @@
+--
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dilaaaap-test-redis-deployment
+  labels:
+        username: dilaaaap
+        env: test
+    app: dilaaaap-test-redis
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: dilaaaap-test-redis
+  template:
+    metadata:
+      labels:
+        app: dilaaaap-test-redis
+    spec:
+      containers:
+        - name: hellos
+          image: redis:6
+          command:
+	  volumeMounts: dilaaaap-test-redis-pvc
+          - name: dilaaaap-test-data
+            mountPath: "/data"
+      volumes:
+      - name: dilaaaap-test-data
+        persistentVolumeClaim:
+          claimName: dilaaaap-test-redis-deployment

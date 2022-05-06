@@ -1,0 +1,16 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+        username: dilaaaap
+        env: test
+  name: dilaaaap-flaskflask
+spec:
+  type: ClusterIP
+  selector:
+      app: dilaaaap-test-flask
+          ports:
+          - name:dilaaaap-test-flask
+            containerPort: 5010
+            port: 5010
+            targetPort: 5010
