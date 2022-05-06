@@ -1,4 +1,4 @@
-# Project Title
+# Containerizing a meteor landing script
 
 In this file, we take data from a dataset, Meteorite_Landings.json, and we summarize that data to demonstrate methods of accessing dictionaries and containerization.
 
