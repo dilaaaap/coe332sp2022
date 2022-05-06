@@ -18,7 +18,7 @@ spec:
         app: dilaaaap-test-flask
     spec:
       containers:
-        - name: dilaaaaplask
+        - name: dilaaaapflask
           imagePullPolicy: Always
-          image: jstubbs/hello-flask
+          image: dilaaaap/hello-flask
 
